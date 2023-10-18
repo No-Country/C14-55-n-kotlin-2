@@ -14,4 +14,5 @@
     <string name="reminder">Recordatorio</string>
     <string name="goals">Metas</string>
     <string name="my_profile">Mi perfil</string>
+    <string name="your_recent_movements">Tus movimientos recientes</string>
 </resources>

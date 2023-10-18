@@ -32,10 +32,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="16dp"
-        app:strokeColor="@color/balance"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:strokeColor="@color/balance">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -48,7 +48,7 @@
                 android:layout_margin="16dp"
                 android:text="@string/Income"
                 android:textColor="@color/income"
-                android:textSize="20sp"
+                android:theme="@style/Body"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,8 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="8dp"
                 android:textColor="@color/income"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:theme="@style/Title"
                 app:layout_constraintEnd_toEndOf="@+id/tvIncome"
                 app:layout_constraintStart_toStartOf="@+id/tvIncome"
                 app:layout_constraintTop_toBottomOf="@+id/tvIncome"
@@ -73,8 +72,7 @@
                 android:layout_margin="16dp"
                 android:text="@string/Expenses"
                 android:textColor="@color/Expenses"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:theme="@style/Body"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="8dp"
                 android:textColor="@color/Expenses"
-                android:textSize="20sp"
+                android:theme="@style/Title"
                 app:layout_constraintEnd_toEndOf="@+id/tvExpenses"
                 app:layout_constraintStart_toStartOf="@+id/tvExpenses"
                 app:layout_constraintTop_toBottomOf="@+id/tvExpenses"
@@ -98,7 +96,7 @@
                 android:layout_margin="16dp"
                 android:text="@string/balance"
                 android:textColor="@color/balance"
-                android:textSize="20sp"
+                android:theme="@style/Body"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvValueExpenses"
                 app:layout_constraintStart_toEndOf="@+id/tvValueIncome"
@@ -111,8 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="8dp"
                 android:textColor="@color/balance"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:theme="@style/Title"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/tvBalance"
                 app:layout_constraintStart_toStartOf="@+id/tvBalance"
@@ -125,40 +122,122 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clExpenses"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cvSummary">
 
-
-        <TextView
-            android:id="@+id/tvYourExpenses"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"
-            android:text="@string/your_expenses"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/chart"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvYourExpenses" />
+            android:orientation="vertical"
+            android:weightSum="2">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clExpenses"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cvSummary">
+
+
+                <TextView
+                    android:id="@+id/tvYourExpenses"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:text="@string/your_expenses"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvYourExpenses"
+                    app:layout_constraintVertical_bias="1.0" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clGoals"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clExpenses">
+
+
+                <TextView
+                    android:id="@+id/tvYourGoals"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:text="Tus metas"
+                    android:theme="@style/Title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clMovements"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clExpenses">
+
+
+                <TextView
+                    android:id="@+id/tvMovements"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:text="@string/your_recent_movements"
+                    android:theme="@style/Title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvMovements"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tvMovements" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

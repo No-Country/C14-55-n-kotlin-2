@@ -6,6 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.finanzas.databinding.FragmentSummaryBinding
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
@@ -59,6 +65,7 @@ class SummaryFragment : Fragment() {
         val data = PieData(dataSet)
         pieChart.data = data
         pieChart.invalidate() // refresca el gráfico
+
     }
 
 

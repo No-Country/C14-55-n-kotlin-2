@@ -6,4 +6,17 @@
     </style>
 
     <style name="Theme.Finanzas" parent="Base.Theme.Finanzas" />
+
+
+    <style name="Title" parent="Body">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Body">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">20sp</item>
+
+    </style>
+
 </resources>
