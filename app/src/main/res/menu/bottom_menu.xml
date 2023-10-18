@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/summaryFragment"
+        android:icon="@drawable/ic_home_lined"
+        android:title="@string/home" />
+
+
+    <item
+        android:id="@+id/movementsFragment"
+        android:icon="@drawable/ic_cash_lined"
+        android:title="@string/movements" />
+
+    <item
+        android:id="@+id/reminderFragment"
+        android:icon="@drawable/ic_calendar_lined"
+        android:title="@string/reminder" />
+
+
+    <item
+        android:id="@+id/goalsFragment2"
+        android:icon="@drawable/ic_favorite_lined"
+        android:title="@string/goals" />
+
+    <item
+        android:id="@+id/profileFragment2"
+        android:icon="@drawable/ic_profile_lined"
+        android:title="@string/my_profile" />
+
+</menu>

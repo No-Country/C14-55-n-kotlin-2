@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/summaryFragment">
+
+
+    <fragment
+        android:id="@+id/summaryFragment"
+        android:name="com.example.finanzas.UI.summary.SummaryFragment"
+        android:label="fragment_summary"
+        tools:layout="@layout/fragment_summary" />
+    <fragment
+        android:id="@+id/movementsFragment"
+        android:name="com.example.finanzas.UI.movements.MovementsFragment"
+        android:label="fragment_movements"
+        tools:layout="@layout/fragment_movements" />
+    <fragment
+        android:id="@+id/goalsFragment2"
+        android:name="com.example.finanzas.UI.goals.GoalsFragment"
+        android:label="fragment_goals"
+        tools:layout="@layout/fragment_goals" />
+    <fragment
+        android:id="@+id/profileFragment2"
+        android:name="com.example.finanzas.UI.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/reminderFragment"
+        android:name="com.example.finanzas.UI.reminder.ReminderFragment"
+        android:label="fragment_reminder"
+        tools:layout="@layout/fragment_reminder" />
+
+
+</navigation>
