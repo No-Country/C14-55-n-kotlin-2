@@ -13,13 +13,29 @@
         android:theme="@style/Theme.Finanzas"
         tools:targetApi="31">
         <activity
-            android:name=".UI.home.MainActivity"
+            android:name=".UI.login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name="com.example.finanzas.UI.forgotPassword.ForgotPasswordActivity">
+            <!-- Opciones y atributos de ForgotPasswordActivity, si los hay -->
+        </activity>
+
+        <activity
+            android:name="com.example.finanzas.UI.register.RegisterActivity">
+            <!-- Opciones y atributos de RegisterActivity, si los hay -->
+        </activity>
+
+        <activity
+            android:name=".UI.home.MainActivity"
+            android:exported="false">
         </activity>
     </application>
 

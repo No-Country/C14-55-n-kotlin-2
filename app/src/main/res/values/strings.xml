@@ -15,4 +15,40 @@
     <string name="goals">Metas</string>
     <string name="my_profile">Mi perfil</string>
     <string name="your_recent_movements">Tus movimientos recientes</string>
+
+    <!--Nombre Icono Toolbar-->
+    <string name="img_campana">Icono de campana</string>
+    <string name="img_ayuda">Icono de ayuda</string>
+
+
+    <!--Nombre Login-->
+    <string name="iniciar_sesion">Iniciar sesión</string>
+    <string name="te_damos_la_bienvenida">¡Te damos la bienvenida!</string>
+    <string name="img_logo">Logo</string>
+    <string name="correo">correo electrónico</string>
+    <string name="contrasena">Contraseña</string>
+    <string name="recordarme">Recordarme</string>
+    <string name="olvide_mi_contrasena">Olvidé mi contraseña</string>
+    <string name="btn_iniciar_sesion">Iniciar sesión</string>
+    <string name="o_ingresa_con">o ingresa con</string>
+    <string name="facebook">facebook</string>
+    <string name="google">google</string>
+    <string name="aun_no_tienes_una_cuenta">¿Aún no tienes una cuenta?</string>
+    <string name="registrarme">Registrarme</string>
+
+    <!--Nombre Register-->
+    <string name="registro">Registro</string>
+    <string name="completa_los_datos_de_registro">Completa los datos de registro</string>
+    <string name="nombre">Nombre</string>
+    <string name="correo_electronico">Correo electrónico</string>
+    <string name="confirmar_contrasena">Confirmar contraseña</string>
+    <string name="btn_registrarme">Registrarme</string>
+
+    <!--Nombre Forgot Password-->
+    <string name="olvidaste_tu_contrasena">¿Olvidaste tu contraseña?</string>
+    <string name="btn_recuperar_contrasena">Recuperar Contraseña</string>
+
+
+
+
 </resources>

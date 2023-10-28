@@ -8,6 +8,11 @@
     <color name="balance">#FF912C</color>
 
     <!-- Toolbar -->
-    <color name="toolbar">#FFF3EDF7</color>
+    <color name="toolbar">#F9F9F9</color>
+
+    <!-- Login -->
+    <color name="btn_iniciarSesion">#3F86FC</color>
+    <color name="textColor">#2A2A2A</color>
+
 
 </resources>

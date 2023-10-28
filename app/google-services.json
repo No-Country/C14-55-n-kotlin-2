@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "641426416094",
+    "project_id": "c14-55-n-kotlin",
+    "storage_bucket": "c14-55-n-kotlin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641426416094:android:45d71d7a5f2910f4977d4f",
+        "android_client_info": {
+          "package_name": "com.example.finanzas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0ACacWg6bIELreyO4pleIsZ6tINsYyo4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

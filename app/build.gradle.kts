@@ -4,6 +4,7 @@ plugins {
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
     id("androidx.navigation.safeargs.kotlin")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -44,6 +45,7 @@ android {
 }
 
 dependencies {
+    implementation("com.google.firebase:firebase-auth:22.2.0")
     val navVersion = "2.7.3"
 
     implementation("androidx.core:core-ktx:1.9.0")
@@ -64,5 +66,16 @@ dependencies {
 
 
     implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    //FireBase
+    implementation(platform("com.google.firebase:firebase-bom:32.4.0"))
+    //Firebase Authentication
+    implementation("com.google.firebase:firebase-auth-ktx")
+    //Cloud Firebase
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    //Storage Firebase
+    implementation("com.google.firebase:firebase-storage-ktx")
+
+
 
 }
