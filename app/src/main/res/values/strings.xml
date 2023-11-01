@@ -48,6 +48,14 @@
     <string name="olvidaste_tu_contrasena">¿Olvidaste tu contraseña?</string>
     <string name="btn_recuperar_contrasena">Recuperar Contraseña</string>
 
+    <!--Nombre Add Egress-->
+    <string name="agregar_nuevo_movimiento">Agregar Nuevo Movimiento</string>
+    <string name="monto">Monto</string>
+    <string name="categoria">Categoria</string>
+    <string name="btn_descartar">Descartar</string>
+    <string name="btn_agregar">Agregar</string>
+
+
 
 
 

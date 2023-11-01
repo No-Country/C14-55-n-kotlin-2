@@ -19,4 +19,7 @@
 
     </style>
 
+    <style name="AppTheme.AddEgress" parent="Theme.AppCompat.Light">
+        <item name="android:windowIsFloating">true</item>
+    </style>
 </resources>

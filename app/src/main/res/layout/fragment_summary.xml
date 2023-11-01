@@ -33,104 +33,27 @@
             android:contentDescription="@string/img_ayuda"
             android:src="@drawable/property_1_inactive"/>
 
-
     </FrameLayout>
 
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cvSummary"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="16dp"
+    <ImageView
+        android:id="@+id/ivAnadirEgreso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/vector"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:strokeColor="@color/balance">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/tvIncome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/Income"
-                android:textColor="@color/income"
-                android:theme="@style/Body"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvValueIncome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:textColor="@color/income"
-                android:theme="@style/Title"
-                app:layout_constraintEnd_toEndOf="@+id/tvIncome"
-                app:layout_constraintStart_toStartOf="@+id/tvIncome"
-                app:layout_constraintTop_toBottomOf="@+id/tvIncome"
-                tools:text="879000" />
+        app:layout_constraintTop_toTopOf="@+id/toolbar"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintVertical_bias="0.97"
+        android:elevation="8dp"
+        android:layout_gravity="end"/>
 
 
-            <TextView
-                android:id="@+id/tvExpenses"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/Expenses"
-                android:textColor="@color/Expenses"
-                android:theme="@style/Body"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvValueExpenses"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:textColor="@color/Expenses"
-                android:theme="@style/Title"
-                app:layout_constraintEnd_toEndOf="@+id/tvExpenses"
-                app:layout_constraintStart_toStartOf="@+id/tvExpenses"
-                app:layout_constraintTop_toBottomOf="@+id/tvExpenses"
-                tools:text="879000" />
 
 
-            <TextView
-                android:id="@+id/tvBalance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/balance"
-                android:textColor="@color/balance"
-                android:theme="@style/Body"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/tvValueExpenses"
-                app:layout_constraintStart_toEndOf="@+id/tvValueIncome"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.63" />
-
-            <TextView
-                android:id="@+id/tvValueBalance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:textColor="@color/balance"
-                android:theme="@style/Title"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/tvBalance"
-                app:layout_constraintStart_toStartOf="@+id/tvBalance"
-                app:layout_constraintTop_toBottomOf="@+id/tvBalance"
-                tools:text="879000" />
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    </com.google.android.material.card.MaterialCardView>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -138,13 +61,115 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvSummary">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:ignore="NotSibling">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:weightSum="2">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:id="@+id/cvSummary"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/toolbar"
+                    app:strokeColor="@color/balance">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/summary"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/tvIncome"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
+                            android:text="@string/Income"
+                            android:textColor="@color/income"
+                            android:theme="@style/Body"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tvValueIncome"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="8dp"
+                            android:textColor="@color/income"
+                            android:theme="@style/Title"
+                            app:layout_constraintEnd_toEndOf="@+id/tvIncome"
+                            app:layout_constraintStart_toStartOf="@+id/tvIncome"
+                            app:layout_constraintTop_toBottomOf="@+id/tvIncome"
+                            android:text="879000" />
+
+
+                        <TextView
+                            android:id="@+id/tvExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
+                            android:text="@string/Expenses"
+                            android:textColor="@color/Expenses"
+                            android:theme="@style/Body"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tvValueExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="8dp"
+                            android:textColor="@color/Expenses"
+                            android:theme="@style/Title"
+                            app:layout_constraintEnd_toEndOf="@+id/tvExpenses"
+                            app:layout_constraintStart_toStartOf="@+id/tvExpenses"
+                            app:layout_constraintTop_toBottomOf="@+id/tvExpenses"
+                            android:text="879000" />
+
+
+                        <TextView
+                            android:id="@+id/tvBalance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
+                            android:text="@string/balance"
+                            android:textColor="@color/balance"
+                            android:theme="@style/Body"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/tvValueExpenses"
+                            app:layout_constraintStart_toEndOf="@+id/tvValueIncome"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.63" />
+
+                        <TextView
+                            android:id="@+id/tvValueBalance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="8dp"
+                            android:textColor="@color/balance"
+                            android:theme="@style/Title"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/tvBalance"
+                            app:layout_constraintStart_toStartOf="@+id/tvBalance"
+                            app:layout_constraintTop_toBottomOf="@+id/tvBalance"
+                            android:text="879000" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -203,6 +228,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="8dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="4dp"
                     android:text="Tus metas"
                     android:theme="@style/Title"
                     app:layout_constraintStart_toStartOf="parent"
@@ -210,7 +237,6 @@
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clMovements"
@@ -238,16 +264,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@+id/tvMovements" />
-
+                    app:layout_constraintTop_toBottomOf="@+id/tvMovements"
+                    tools:layout_editor_absoluteX="0dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
         </LinearLayout>
 
 
-    </ScrollView>
 
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
