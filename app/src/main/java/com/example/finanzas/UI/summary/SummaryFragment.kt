@@ -6,6 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.example.finanzas.UI.summary.viewModel.SummaryViewModel
 import com.example.finanzas.databinding.DialogAddEgressBinding
 import com.example.finanzas.databinding.FragmentSummaryBinding
 import com.github.mikephil.charting.data.PieData
@@ -13,14 +19,17 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class SummaryFragment : Fragment() {
 
     private var _binding: FragmentSummaryBinding? = null
     private lateinit var bindingDialogAddEgress: DialogAddEgressBinding
     private var dialogAddEgress: androidx.appcompat.app.AlertDialog? = null
     private val binding get() = _binding!!
+    private val summaryViewModel: SummaryViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,17 +38,16 @@ class SummaryFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentSummaryBinding.inflate(inflater, container, false)
         bindingDialogAddEgress = DialogAddEgressBinding.inflate(LayoutInflater.from(this.context))
-
         return binding.root
     }
-
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initUI()
+
+
     }
 
     private fun initUI() {
@@ -49,6 +57,10 @@ class SummaryFragment : Fragment() {
     }
 
     private fun initUIState() {
+        lifecycleScope.launch {
+            summaryViewModel.insertTypeCategories()
+            summaryViewModel.insertCategories()
+        }
     }
 
     private fun initList() {
@@ -81,8 +93,6 @@ class SummaryFragment : Fragment() {
         }
 
 
-
-
     }
 
     private fun showDialogAddEgress() {
@@ -97,8 +107,10 @@ class SummaryFragment : Fragment() {
         (dialogView.parent as? ViewGroup)?.removeView(dialogView)
 
 
-        val sugerencias = arrayOf("Casa", "Servicio", "Salario", "Mercado", "Salud","Farmacia",
-            "Regalo", "Salida", "Viaje", "Ocio", "Auto", "Mascota", "Educacion", "Otro")
+        val sugerencias = arrayOf(
+            "Casa", "Servicio", "Salario", "Mercado", "Salud", "Farmacia",
+            "Regalo", "Salida", "Viaje", "Ocio", "Auto", "Mascota", "Educacion", "Otro"
+        )
 
         val autoCompleteTextView = bindingDialogAddEgress.atCategoria
 
@@ -120,8 +132,6 @@ class SummaryFragment : Fragment() {
 
         dialogAddEgress?.show()
     }
-
-
 
 
 }

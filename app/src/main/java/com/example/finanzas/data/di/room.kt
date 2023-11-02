@@ -2,7 +2,13 @@ package com.example.finanzas.data.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.finanzas.data.RepositoryImpl
 import com.example.finanzas.data.database.FinanzasDB
+import com.example.finanzas.data.database.dao.CategoryDao
+import com.example.finanzas.data.database.dao.MovementsDao
+import com.example.finanzas.data.database.dao.TypeCategoriesDao
+import com.example.finanzas.data.database.dao.UsersDao
+import com.example.finanzas.domain.Repository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -64,6 +70,17 @@ class room {
     @Provides
     fun provideMovementsDao(db: FinanzasDB) = db.getMovements()
 
+
+    @Singleton
+    @Provides
+    fun provideRepository(
+        usersDao: UsersDao,
+        categoryDao: CategoryDao,
+        movementsDao: MovementsDao,
+        typeCategoriesDao: TypeCategoriesDao
+    ): Repository {
+        return RepositoryImpl(usersDao, categoryDao, movementsDao, typeCategoriesDao)
+    }
 
 
 }

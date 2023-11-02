@@ -5,7 +5,9 @@ import com.example.finanzas.data.database.dao.CategoryDao
 import com.example.finanzas.data.database.dao.MovementsDao
 import com.example.finanzas.data.database.dao.TypeCategoriesDao
 import com.example.finanzas.data.database.dao.UsersDao
+import com.example.finanzas.data.database.entities.toDatabase
 import com.example.finanzas.domain.Repository
+import com.example.finanzas.domain.model.Categories
 import com.example.finanzas.domain.model.TypeCategories
 import javax.inject.Inject
 
@@ -15,11 +17,22 @@ class RepositoryImpl @Inject constructor(
     private val movementsDao: MovementsDao,
     private val typeCategoriesDao: TypeCategoriesDao
 ) : Repository {
-    override suspend fun insertTypeCategory(typeCategories: TypeCategories) {
+    override suspend fun insertTypeCategory(typeCategories: List<TypeCategories>) {
         try {
-/*
-            typeCategoriesDao.insertTypeCategories(typeCategories)
-*/
+            typeCategoriesDao.insertTypeCategories(
+                typeCategories.map { it.toDatabase() }
+            )
+        } catch (e: SQLiteConstraintException) {
+
+        }
+    }
+
+
+    override suspend fun insertCategories(categories: List<Categories>) {
+        try {
+            categoryDao.insertCategories(
+                categories.map { it.toDatabase() }
+            )
         } catch (e: SQLiteConstraintException) {
 
         }

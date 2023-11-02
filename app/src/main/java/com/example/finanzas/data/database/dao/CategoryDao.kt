@@ -8,7 +8,7 @@ import com.example.finanzas.data.database.entities.CategoriesEntity
 @Dao
 interface CategoryDao {
     @Insert()
-    suspend fun insertTypeCategories(categoriesEntity: CategoriesEntity)
+    suspend fun insertCategories(categoriesEntity: List<CategoriesEntity>)
 
     @Query("SELECT * FROM categories")
     suspend fun getCategories(): List<CategoriesEntity>

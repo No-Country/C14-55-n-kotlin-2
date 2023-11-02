@@ -46,7 +46,6 @@ android {
 
 dependencies {
     implementation("com.google.firebase:firebase-auth:22.2.0")
-    implementation("androidx.room:room-ktx:2.6.0")
     val navVersion = "2.7.3"
 
     implementation("androidx.core:core-ktx:1.9.0")
@@ -61,12 +60,16 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 
+    //Room
+    implementation("androidx.room:room-ktx:2.6.0")
+    kapt("androidx.room:room-compiler:2.6.0")
+
     // DaggerHilt
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
 
 
-    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
     //FireBase
     implementation(platform("com.google.firebase:firebase-bom:32.4.0"))
@@ -76,7 +79,6 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx")
     //Storage Firebase
     implementation("com.google.firebase:firebase-storage-ktx")
-
 
 
 }

@@ -10,7 +10,7 @@ import com.example.finanzas.data.database.entities.UsersEntity
 interface UsersDao {
     @Insert()
     suspend fun insertUsers(usersEntity: UsersEntity)
-    @Query("SELECT * FROM users")
-    suspend fun getUsers(): List<TypeCategoriesEntity>
+/*    @Query("SELECT * FROM users")
+    suspend fun getUsers(): List<TypeCategoriesEntity>*/
 
 }
