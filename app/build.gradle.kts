@@ -46,6 +46,7 @@ android {
 
 dependencies {
     implementation("com.google.firebase:firebase-auth:22.2.0")
+    implementation("androidx.room:room-ktx:2.6.0")
     val navVersion = "2.7.3"
 
     implementation("androidx.core:core-ktx:1.9.0")
