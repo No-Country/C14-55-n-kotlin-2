@@ -1,6 +1,7 @@
 package com.example.finanzas.UI.movements
 
 import android.R
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,13 +13,22 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.finanzas.UI.movements.viewModel.MovementsViewModel
 import com.example.finanzas.databinding.DialogAddEgressBinding
 import com.example.finanzas.databinding.FragmentMovementsBinding
 import com.example.finanzas.domain.model.Categories
 import com.example.finanzas.domain.model.Movements
+import com.example.finanzas.domain.model.QueryGetMovements
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.symbiot.ipharma.ui.view.MainListProducts.recyclers.CategoriesAdapter
+import com.symbiot.ipharma.ui.view.MainListProducts.recyclers.MovementsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -32,7 +42,9 @@ class MovementsFragment : Fragment() {
     private var dialogAddEgress: androidx.appcompat.app.AlertDialog? = null
     private var listOfCategories = listOf<Categories>()
     private val movementViewModel: MovementsViewModel by viewModels()
+    private lateinit var movementsAdapter: MovementsAdapter
     private var stringList = listOf<String>()
+    private var listOfMovements = listOf<QueryGetMovements>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,6 +72,33 @@ class MovementsFragment : Fragment() {
             }
         }
         initUiState()
+        initRecyclers()
+
+    }
+
+    private fun initRecyclers() {
+        movementsAdapter = MovementsAdapter{}
+        setupRecyclerView(
+            binding.rvMovements,
+            RecyclerView.VERTICAL,
+            movementsAdapter,
+            requireContext(),
+            1
+        )
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                movementViewModel.Movements.collect {
+                    movementsAdapter.updateList(it)
+                    listOfMovements = it
+                    var sum = listOfMovements.filter { it.idTypeCategory.toInt() == 1 }.sumOf { it.value.toInt() }
+                    var sum2 = listOfMovements.filter { it.idTypeCategory.toInt() == 2 }.sumOf { it.value.toInt() }
+                    var balance = sum - sum2
+                    binding.tvValueIncome.text = sum.toString()
+                    binding.tvValueExpenses.text = sum2.toString()
+                    binding.tvValueBalance.text = balance.toString()
+                }
+            }
+        }
     }
 
     private fun initUiState() {
@@ -76,8 +115,8 @@ class MovementsFragment : Fragment() {
         lifecycleScope.launch {
             val getCategoriesJob = async { movementViewModel.getCategories() }
             getCategoriesJob.await()
-            /*val getMovementsJob = async { movementViewModel.getMovements() }
-            getMovementsJob.await()*/
+            val getMovementsJob = async { movementViewModel.getMovements() }
+            getMovementsJob.await()
         }
     }
 
@@ -131,5 +170,26 @@ class MovementsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun setupRecyclerView(
+        recyclerView: RecyclerView,
+        orientation: Int,
+        adapter: RecyclerView.Adapter<*>,
+        context: Context,
+        spanCount: Int = 3
+    ) {
+        recyclerView.setHasFixedSize(false)
+        recyclerView.layoutManager = when (orientation) {
+            RecyclerView.HORIZONTAL -> LinearLayoutManager(
+                context,
+                RecyclerView.HORIZONTAL,
+                false
+            )
+
+            RecyclerView.VERTICAL -> GridLayoutManager(context, spanCount)
+            else -> throw IllegalArgumentException("Invalid orientation")
+        }
+        recyclerView.adapter = adapter
     }
 }

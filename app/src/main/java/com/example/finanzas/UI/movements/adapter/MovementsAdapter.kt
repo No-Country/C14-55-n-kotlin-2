@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.finanzas.R
 import com.example.finanzas.domain.model.QueryGetMovements
 
-class CategoriesAdapter(
+class MovementsAdapter(
     var categoriasList: List<QueryGetMovements> = emptyList(),
     private val onItemSelected: (Int) -> Unit
 ) : RecyclerView.Adapter<MovementsViewHolder>() {

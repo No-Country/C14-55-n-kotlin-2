@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -16,21 +15,17 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.finanzas.UI.summary.viewModel.SummaryViewModel
-import com.example.finanzas.databinding.DialogAddEgressBinding
 import com.example.finanzas.databinding.FragmentSummaryBinding
-import com.example.finanzas.domain.model.Categories
-import com.example.finanzas.domain.model.Movements
 import com.example.finanzas.domain.model.QueryGetMovements
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.symbiot.ipharma.ui.view.MainListProducts.recyclers.CategoriesAdapter
+import com.symbiot.ipharma.ui.view.MainListProducts.recyclers.MovementsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlin.math.log
 
 @AndroidEntryPoint
 class SummaryFragment : Fragment() {
