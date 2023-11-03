@@ -25,7 +25,7 @@
     <string name="iniciar_sesion">Iniciar sesión</string>
     <string name="te_damos_la_bienvenida">¡Te damos la bienvenida!</string>
     <string name="img_logo">Logo</string>
-    <string name="correo">correo electrónico</string>
+    <string name="correo">Correo electrónico</string>
     <string name="contrasena">Contraseña</string>
     <string name="recordarme">Recordarme</string>
     <string name="olvide_mi_contrasena">Olvidé mi contraseña</string>
@@ -60,6 +60,9 @@
     <string name="img_back">Icono de back</string>
     <string name="your_month_movements">Tus movimientos del mes</string>
 
+    <!--Nombre Profile-->
+    <string name="profile">Mi perfil</string>
+    <string name="logout">Cerrar Sesión</string>
 
     
 </resources>

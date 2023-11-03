@@ -79,6 +79,7 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx")
     //Storage Firebase
     implementation("com.google.firebase:firebase-storage-ktx")
-
+    //firestore
+    implementation ("com.google.firebase:firebase-firestore-ktx")
 
 }
