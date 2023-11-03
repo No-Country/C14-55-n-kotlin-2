@@ -51,10 +51,6 @@
 
 
 
-
-
-
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -111,7 +107,7 @@
                             app:layout_constraintEnd_toEndOf="@+id/tvIncome"
                             app:layout_constraintStart_toStartOf="@+id/tvIncome"
                             app:layout_constraintTop_toBottomOf="@+id/tvIncome"
-                            android:text="879000" />
+                            tools:text="879000" />
 
 
                         <TextView
@@ -135,7 +131,7 @@
                             app:layout_constraintEnd_toEndOf="@+id/tvExpenses"
                             app:layout_constraintStart_toStartOf="@+id/tvExpenses"
                             app:layout_constraintTop_toBottomOf="@+id/tvExpenses"
-                            android:text="879000" />
+                            tools:text="879000" />
 
 
                         <TextView
@@ -163,7 +159,7 @@
                             app:layout_constraintEnd_toEndOf="@+id/tvBalance"
                             app:layout_constraintStart_toStartOf="@+id/tvBalance"
                             app:layout_constraintTop_toBottomOf="@+id/tvBalance"
-                            android:text="879000" />
+                            tools:text="879000" />
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>

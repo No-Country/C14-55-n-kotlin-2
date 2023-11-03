@@ -10,7 +10,7 @@ interface CategoryDao {
     @Insert()
     suspend fun insertCategories(categoriesEntity: List<CategoriesEntity>)
 
-    @Query("SELECT name FROM categories")
-    suspend fun getCategories(): List<String>
+    @Query("SELECT * FROM categories")
+    suspend fun getCategories(): List<CategoriesEntity>
 
 }

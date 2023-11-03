@@ -1,5 +1,6 @@
 package com.example.finanzas.UI.summary
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,13 +10,13 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.finanzas.UI.summary.viewModel.SummaryViewModel
 import com.example.finanzas.databinding.DialogAddEgressBinding
 import com.example.finanzas.databinding.FragmentSummaryBinding
 import com.example.finanzas.domain.model.Categories
+import com.example.finanzas.domain.model.Movements
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
@@ -23,7 +24,6 @@ import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import kotlin.math.log
 
 @AndroidEntryPoint
 class SummaryFragment : Fragment() {
@@ -33,7 +33,9 @@ class SummaryFragment : Fragment() {
     private var dialogAddEgress: androidx.appcompat.app.AlertDialog? = null
     private val binding get() = _binding!!
     private val summaryViewModel: SummaryViewModel by viewModels()
-    private var listOfCategories = listOf<String>()
+    private var stringList = listOf<String>()
+    private var listOfCategories = listOf<Categories>()
+
 
 
     override fun onCreateView(
@@ -63,17 +65,29 @@ class SummaryFragment : Fragment() {
 /*
         realizar que esto se ejecute una sola vez
 */
-        lifecycleScope.launch {
-            summaryViewModel.insertTypeCategories()
-            summaryViewModel.insertCategories()
+        val sharedPreferences = requireContext().getSharedPreferences("MyApp", Context.MODE_PRIVATE)
+        if (!sharedPreferences.getBoolean("FirstRun", false)) {
+            // Este bloque de código se ejecutará solo la primera vez que se abra la aplicación
+            lifecycleScope.launch {
+                summaryViewModel.insertTypeCategories()
+                summaryViewModel.insertCategories()
+            }
+
+            // Actualiza las preferencias compartidas para indicar que la aplicación ya se ha abierto antes
+            sharedPreferences.edit().putBoolean("FirstRun", true).apply()
         }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 summaryViewModel.Categories.collect {
-                   listOfCategories = it
+                   stringList = it.map { it.name }
+                    listOfCategories = it
                     Log.d("Categories", it.toString())
                 }
             }
+        }
+
+        lifecycleScope.launch {
+            summaryViewModel.getCategories()
         }
     }
 
@@ -89,7 +103,7 @@ class SummaryFragment : Fragment() {
         entries.add(PieEntry(40f, "China"))
         entries.add(PieEntry(23f, "Brasil"))
 
-        val dataSet = PieDataSet(entries, "Ejemplo de PieChart")
+        val dataSet = PieDataSet(entries, "")
 
         dataSet.colors = ColorTemplate.COLORFUL_COLORS.toList()
 
@@ -102,9 +116,6 @@ class SummaryFragment : Fragment() {
     private fun initListeners() {
         with(binding) {
             ivAnadirEgreso.setOnClickListener {
-                lifecycleScope.launch {
-                    summaryViewModel.getCategories()
-                }
                 showDialogAddEgress()
             }
         }
@@ -131,7 +142,7 @@ class SummaryFragment : Fragment() {
             ArrayAdapter(
                 it,
                 android.R.layout.simple_dropdown_item_1line,
-                listOfCategories
+                stringList
             )
         }
 
@@ -139,6 +150,19 @@ class SummaryFragment : Fragment() {
         autoCompleteTextView.setAdapter(adapter)
 
         bindingDialogAddEgress.btnDescartar.setOnClickListener {
+            dialogAddEgress?.dismiss()
+        }
+
+        bindingDialogAddEgress.btnAgregar.setOnClickListener{
+            val category = bindingDialogAddEgress.atCategoria.text.toString()
+            val amount = bindingDialogAddEgress.etMonto.text.toString()
+            val categorySelected = listOfCategories.firstOrNull { it.name == category }
+            val categoryId = categorySelected?.id
+            val movements = Movements(
+                value = amount, category_id = categoryId.toString() , user_id = "1")
+            lifecycleScope.launch {
+                summaryViewModel.insertMovements(movements)
+            }
             dialogAddEgress?.dismiss()
         }
 

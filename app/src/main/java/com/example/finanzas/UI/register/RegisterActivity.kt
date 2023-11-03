@@ -7,22 +7,31 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.finanzas.R
 import com.example.finanzas.R.id.textViewOlvideMiContrasena
 import com.example.finanzas.UI.forgotPassword.ForgotPasswordActivity
 import com.example.finanzas.UI.home.MainActivity
 import com.example.finanzas.UI.login.LoginActivity
+import com.example.finanzas.UI.register.ViewModel.RegistrerViewModel
+import com.example.finanzas.UI.summary.viewModel.SummaryViewModel
+import com.example.finanzas.domain.model.Users
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
+    private val registrerViewModel: RegistrerViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,13 +77,16 @@ class RegisterActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:success")
-                    val intent = Intent(this, RegisterActivity::class.java)
-                    startActivity(intent)
-
                     Toast.makeText(
                         baseContext, "Registro exitoso.",
                         Toast.LENGTH_SHORT
                     ).show()
+                    lifecycleScope.launch {
+                       registrerViewModel.insertUsersCase(Users( email = inputEmail))
+                    }
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
+
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)

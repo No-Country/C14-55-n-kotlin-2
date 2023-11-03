@@ -9,7 +9,9 @@ import com.example.finanzas.data.database.dao.UsersDao
 import com.example.finanzas.data.database.entities.toDatabase
 import com.example.finanzas.domain.Repository
 import com.example.finanzas.domain.model.Categories
+import com.example.finanzas.domain.model.Movements
 import com.example.finanzas.domain.model.TypeCategories
+import com.example.finanzas.domain.model.Users
 import com.example.finanzas.domain.model.toDomain
 import javax.inject.Inject
 
@@ -40,8 +42,26 @@ class RepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getCategories(): List<String> {
-        return categoryDao.getCategories()
+    override suspend fun getCategories(): List<Categories> {
+        return categoryDao.getCategories().map { it.toDomain() }
+    }
+
+    override suspend fun insertUser(user: Users) {
+        try {
+            usersDao.insertUsers(
+                user.toDatabase()
+            )
+        } catch (e: SQLiteConstraintException) {
+            Log.d("Error al insertar insertCategories ", e.toString())
+        }
+    }
+
+    override suspend fun insertMovements(movements: Movements) {
+        try {
+            movementsDao.insertMovements(movements.toDatabase())
+        } catch (e: SQLiteConstraintException) {
+            Log.d("Error al insertar insertMovements ", e.toString())
+        }
     }
 
 
