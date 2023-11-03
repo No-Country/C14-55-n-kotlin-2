@@ -21,10 +21,12 @@ data class CategoriesEntity (
     @ColumnInfo(name = "id") val id: Int = 0,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo("type_categories_id") val type_categories_id: String,
+    @ColumnInfo("image") val image: Int
 )
 
 fun Categories.toDatabase() = CategoriesEntity(
     id = id,
     name = name,
     type_categories_id = type_categories_id,
+    image = image
 )

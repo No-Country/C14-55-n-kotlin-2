@@ -14,5 +14,9 @@
     <color name="btn_iniciarSesion">#3F86FC</color>
     <color name="textColor">#2A2A2A</color>
 
+    <!-- Movements -->
+    <color name="Ingreso">#34A52B</color>
+    <color name="Egreso">#3F86FC</color>
+
 
 </resources>

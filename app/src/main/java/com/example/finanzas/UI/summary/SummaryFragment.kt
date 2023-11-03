@@ -12,29 +12,37 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.finanzas.UI.summary.viewModel.SummaryViewModel
 import com.example.finanzas.databinding.DialogAddEgressBinding
 import com.example.finanzas.databinding.FragmentSummaryBinding
 import com.example.finanzas.domain.model.Categories
 import com.example.finanzas.domain.model.Movements
+import com.example.finanzas.domain.model.QueryGetMovements
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.symbiot.ipharma.ui.view.MainListProducts.recyclers.CategoriesAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlin.math.log
 
 @AndroidEntryPoint
 class SummaryFragment : Fragment() {
 
     private var _binding: FragmentSummaryBinding? = null
-    private lateinit var bindingDialogAddEgress: DialogAddEgressBinding
-    private var dialogAddEgress: androidx.appcompat.app.AlertDialog? = null
+
     private val binding get() = _binding!!
     private val summaryViewModel: SummaryViewModel by viewModels()
+    private var listOfMovements = listOf<QueryGetMovements>()
+    private lateinit var movementsAdapter: CategoriesAdapter
     private var stringList = listOf<String>()
-    private var listOfCategories = listOf<Categories>()
+
 
 
 
@@ -44,7 +52,6 @@ class SummaryFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentSummaryBinding.inflate(inflater, container, false)
-        bindingDialogAddEgress = DialogAddEgressBinding.inflate(LayoutInflater.from(this.context))
         return binding.root
     }
 
@@ -57,117 +64,109 @@ class SummaryFragment : Fragment() {
     }
 
     private fun initUI() {
-        initList()
-        initListeners()
+        initRecyclers()
+    }
+
+    private fun initRecyclers() {
+        movementsAdapter = CategoriesAdapter{}
+
+        setupRecyclerView(
+            binding.rvMovements,
+            RecyclerView.VERTICAL,
+            movementsAdapter,
+            requireContext(),
+            1
+        )
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                summaryViewModel.Movements.collect {
+                    movementsAdapter.updateList(it)
+                    listOfMovements = it
+                    var sum = listOfMovements.filter { it.idTypeCategory.toInt() == 1 }.sumOf { it.value.toInt() }
+                    var sum2 = listOfMovements.filter { it.idTypeCategory.toInt() == 2 }.sumOf { it.value.toInt() }
+                    var balance = sum - sum2
+                    binding.tvValueIncome.text = sum.toString()
+                    binding.tvValueExpenses.text = sum2.toString()
+                    binding.tvValueBalance.text = balance.toString()
+
+
+
+            /*       var torta = listOfMovements.filter { it.idTypeCategory.toInt() == 2 }
+                    Log.d("Torta", torta.toString())
+                    val totalValue = torta.sumBy { it.value.toInt() }
+
+                    val results = listOfMovements.filter { it.idTypeCategory.toInt() == 2 }.map { category ->
+                        Pair(category, percentage)
+                    }
+                    val percentage = totalValueForCategory.toDouble() / totalValue * 100
+
+
+                    Log.d("Results", results.toString())
+
+
+                    Log.d("Torta", totalValue.toString())*/
+                    val pieChart = binding.chart
+
+                    val entries = ArrayList<PieEntry>()
+                    entries.add(PieEntry(34f, "Japon"))
+                    entries.add(PieEntry(23f, "Brasil"))
+
+                    val dataSet = PieDataSet(entries, "")
+
+                    dataSet.colors = ColorTemplate.COLORFUL_COLORS.toList()
+
+                    val data = PieData(dataSet)
+                    pieChart.data = data
+                    pieChart.invalidate() // refresca el gráfico
+                }
+            }
+        }
     }
 
     private fun initUIState() {
+        lifecycleScope.launch {
+            val getCategoriesJob = async { summaryViewModel.getCategories() }
+            val getMovementsJob = async { summaryViewModel.getMovements() }
+            getCategoriesJob.await()
+            getMovementsJob.await()
+        }
+
 /*
         realizar que esto se ejecute una sola vez
 */
-        val sharedPreferences = requireContext().getSharedPreferences("MyApp", Context.MODE_PRIVATE)
-        if (!sharedPreferences.getBoolean("FirstRun", false)) {
-            // Este bloque de código se ejecutará solo la primera vez que se abra la aplicación
-            lifecycleScope.launch {
-                summaryViewModel.insertTypeCategories()
-                summaryViewModel.insertCategories()
-            }
-
-            // Actualiza las preferencias compartidas para indicar que la aplicación ya se ha abierto antes
-            sharedPreferences.edit().putBoolean("FirstRun", true).apply()
-        }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 summaryViewModel.Categories.collect {
-                   stringList = it.map { it.name }
-                    listOfCategories = it
+                    stringList = it.map { it.name }
                     Log.d("Categories", it.toString())
                 }
             }
         }
 
-        lifecycleScope.launch {
-            summaryViewModel.getCategories()
-        }
-    }
-
-    private fun initList() {
-
-        val pieChart = binding.chart
-
-        val entries = ArrayList<PieEntry>()
-        entries.add(PieEntry(34f, "Japon"))
-        entries.add(PieEntry(23f, "USA"))
-        entries.add(PieEntry(14f, "UK"))
-        entries.add(PieEntry(35f, "India"))
-        entries.add(PieEntry(40f, "China"))
-        entries.add(PieEntry(23f, "Brasil"))
-
-        val dataSet = PieDataSet(entries, "")
-
-        dataSet.colors = ColorTemplate.COLORFUL_COLORS.toList()
-
-        val data = PieData(dataSet)
-        pieChart.data = data
-        pieChart.invalidate() // refresca el gráfico
-
-    }
-
-    private fun initListeners() {
-        with(binding) {
-            ivAnadirEgreso.setOnClickListener {
-                showDialogAddEgress()
-            }
-        }
 
 
     }
 
-    private fun showDialogAddEgress() {
-        var dialogView = bindingDialogAddEgress.root
 
-
-        dialogAddEgress = this.context?.let {
-            MaterialAlertDialogBuilder(it)
-                .setView(dialogView)
-                .create()
-        }
-        (dialogView.parent as? ViewGroup)?.removeView(dialogView)
-
-
-        val autoCompleteTextView = bindingDialogAddEgress.atCategoria
-
-        // Crea un adaptador de sugerencias
-        val adapter = this.context?.let {
-            ArrayAdapter(
-                it,
-                android.R.layout.simple_dropdown_item_1line,
-                stringList
+    fun setupRecyclerView(
+        recyclerView: RecyclerView,
+        orientation: Int,
+        adapter: RecyclerView.Adapter<*>,
+        context: Context,
+        spanCount: Int = 3
+    ) {
+        recyclerView.setHasFixedSize(false)
+        recyclerView.layoutManager = when (orientation) {
+            RecyclerView.HORIZONTAL -> LinearLayoutManager(
+                context,
+                RecyclerView.HORIZONTAL,
+                false
             )
+
+            RecyclerView.VERTICAL -> GridLayoutManager(context, spanCount)
+            else -> throw IllegalArgumentException("Invalid orientation")
         }
-
-        // Configura el adaptador en el AutoCompleteTextView
-        autoCompleteTextView.setAdapter(adapter)
-
-        bindingDialogAddEgress.btnDescartar.setOnClickListener {
-            dialogAddEgress?.dismiss()
-        }
-
-        bindingDialogAddEgress.btnAgregar.setOnClickListener{
-            val category = bindingDialogAddEgress.atCategoria.text.toString()
-            val amount = bindingDialogAddEgress.etMonto.text.toString()
-            val categorySelected = listOfCategories.firstOrNull { it.name == category }
-            val categoryId = categorySelected?.id
-            val movements = Movements(
-                value = amount, category_id = categoryId.toString() , user_id = "1")
-            lifecycleScope.launch {
-                summaryViewModel.insertMovements(movements)
-            }
-            dialogAddEgress?.dismiss()
-        }
-
-        dialogAddEgress?.show()
+        recyclerView.adapter = adapter
     }
-
 
 }

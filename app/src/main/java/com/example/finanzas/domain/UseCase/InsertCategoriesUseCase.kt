@@ -1,5 +1,6 @@
 package com.example.finanzas.domain.UseCase
 
+import com.example.finanzas.R
 import com.example.finanzas.domain.Repository
 import com.example.finanzas.domain.model.Categories
 import javax.inject.Inject
@@ -11,23 +12,20 @@ class InsertCategoriesUseCase
     suspend operator fun invoke() {
         return repository.insertCategories(
             listOf(
-                Categories(1, "Sueldo", "1"),
-                Categories(2, "Ahorro", "1"),
-                Categories(3, "Otros", "1"),
-                Categories(4, "Alquiler", "2"),
-                Categories(5, "Comida", "2"),
-                Categories(6, "Servicios", "2"),
-                Categories(7, "Casa", "2"),
-                Categories(8, "Mercado", "2"),
-                Categories(9, "Salud", "2"),
-                Categories(10, "Farmacia", "2"),
-                Categories(11, "Regalo", "1"),
-                Categories(12, "Salida", "2"),
-                Categories(13, "Ocio", "2"),
-                Categories(14, "Viaje", "2"),
-                Categories(15, "Auto", "2"),
-                Categories(16, "Mascota", "2"),
-                Categories(17, "Educacion", "2"),
+                Categories( name="Sueldo", type_categories_id ="1", image = R.drawable.salario),
+                Categories( name="Regalo", type_categories_id ="1",image = R.drawable.regalo),
+                Categories( name="Alquiler", type_categories_id ="2",image = R.drawable.ic_home_lined),
+                Categories( name="Comida", type_categories_id ="2", image =R.drawable.salida),
+                Categories( name="Servicios", type_categories_id ="2",image = R.drawable.servicios),
+                Categories( name="Mercado", type_categories_id ="2",image = R.drawable.mercado),
+                Categories( name="Salud", type_categories_id ="2", image =R.drawable.salud),
+                Categories( name="Farmacia", type_categories_id ="2", image =R.drawable.farmacia),
+                Categories( name="Salida", type_categories_id ="2", image =R.drawable.salida),
+                Categories(name= "Ocio", type_categories_id = "2", image = R.drawable.ocio),
+                Categories(name= "Viaje", type_categories_id ="2", image = R.drawable.viaje),
+                Categories(name= "Auto", type_categories_id ="2", image = R.drawable.auto),
+                Categories(name= "Mascota",type_categories_id = "2", image = R.drawable.mascota),
+                Categories(name= "Educacion", type_categories_id ="2", image = R.drawable.educacion),
 
                 )
         )

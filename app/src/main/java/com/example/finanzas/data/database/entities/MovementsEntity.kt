@@ -26,7 +26,7 @@ import java.util.Locale
 )
 data class MovementsEntity (
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id") val id: Int = 0,
+    @ColumnInfo(name = "id") val id: Int,
     @ColumnInfo(name = "value") val value: String,
     @ColumnInfo(name = "category_id") val category_id: String,
     @ColumnInfo(name = "user_id") val user_id: String,
