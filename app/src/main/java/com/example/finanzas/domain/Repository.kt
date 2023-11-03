@@ -6,5 +6,5 @@ import com.example.finanzas.domain.model.TypeCategories
 interface Repository {
     suspend fun insertTypeCategory(typeCategories: List<TypeCategories>)
     suspend fun insertCategories(categories: List<Categories>)
-
+    suspend fun getCategories(): List<String>
 }

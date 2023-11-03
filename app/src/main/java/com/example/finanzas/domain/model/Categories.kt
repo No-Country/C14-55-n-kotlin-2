@@ -9,7 +9,7 @@ data class Categories(
     val type_categories_id: String,
 )
 
-fun CategoriesEntity.toDatabase() = Categories(
+fun CategoriesEntity.toDomain() = Categories(
     id = id,
     name = name,
     type_categories_id = type_categories_id,

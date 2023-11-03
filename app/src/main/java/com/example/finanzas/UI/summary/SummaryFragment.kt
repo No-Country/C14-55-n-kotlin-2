@@ -1,6 +1,7 @@
 package com.example.finanzas.UI.summary
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.finanzas.UI.summary.viewModel.SummaryViewModel
 import com.example.finanzas.databinding.DialogAddEgressBinding
 import com.example.finanzas.databinding.FragmentSummaryBinding
+import com.example.finanzas.domain.model.Categories
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
@@ -21,6 +23,7 @@ import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlin.math.log
 
 @AndroidEntryPoint
 class SummaryFragment : Fragment() {
@@ -30,6 +33,8 @@ class SummaryFragment : Fragment() {
     private var dialogAddEgress: androidx.appcompat.app.AlertDialog? = null
     private val binding get() = _binding!!
     private val summaryViewModel: SummaryViewModel by viewModels()
+    private var listOfCategories = listOf<String>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,20 +51,29 @@ class SummaryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initUI()
-
-
+        initUIState()
     }
 
     private fun initUI() {
         initList()
-        initUIState()
         initListeners()
     }
 
     private fun initUIState() {
+/*
+        realizar que esto se ejecute una sola vez
+*/
         lifecycleScope.launch {
             summaryViewModel.insertTypeCategories()
             summaryViewModel.insertCategories()
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                summaryViewModel.Categories.collect {
+                   listOfCategories = it
+                    Log.d("Categories", it.toString())
+                }
+            }
         }
     }
 
@@ -88,6 +102,9 @@ class SummaryFragment : Fragment() {
     private fun initListeners() {
         with(binding) {
             ivAnadirEgreso.setOnClickListener {
+                lifecycleScope.launch {
+                    summaryViewModel.getCategories()
+                }
                 showDialogAddEgress()
             }
         }
@@ -107,11 +124,6 @@ class SummaryFragment : Fragment() {
         (dialogView.parent as? ViewGroup)?.removeView(dialogView)
 
 
-        val sugerencias = arrayOf(
-            "Casa", "Servicio", "Salario", "Mercado", "Salud", "Farmacia",
-            "Regalo", "Salida", "Viaje", "Ocio", "Auto", "Mascota", "Educacion", "Otro"
-        )
-
         val autoCompleteTextView = bindingDialogAddEgress.atCategoria
 
         // Crea un adaptador de sugerencias
@@ -119,7 +131,7 @@ class SummaryFragment : Fragment() {
             ArrayAdapter(
                 it,
                 android.R.layout.simple_dropdown_item_1line,
-                sugerencias
+                listOfCategories
             )
         }
 
