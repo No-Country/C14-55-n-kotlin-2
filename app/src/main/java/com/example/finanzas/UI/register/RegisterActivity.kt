@@ -23,6 +23,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.auth.userProfileChangeRequest
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -83,7 +84,19 @@ class RegisterActivity : AppCompatActivity() {
                     ).show()
                     lifecycleScope.launch {
                        registrerViewModel.insertUsersCase(Users( email = inputEmail))
+                        val user = Firebase.auth.currentUser
+
+                        val profileUpdates = userProfileChangeRequest {
+                            displayName = inputNombre
+                        }
+                        user!!.updateProfile(profileUpdates)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    Log.d(TAG, "User profile updated.")
+                                }
+                            }
                     }
+
                     val intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
 
