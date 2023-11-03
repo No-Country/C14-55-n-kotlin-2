@@ -11,4 +11,5 @@ plugins {
     id ("org.gradle.toolchains.foojay-resolver-convention") version "0.4.0" apply false
     id ("androidx.navigation.safeargs.kotlin") version "2.7.1" apply false
     id("com.google.gms.google-services") version "4.4.0" apply false
+
 }
