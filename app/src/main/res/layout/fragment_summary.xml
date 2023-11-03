@@ -35,22 +35,6 @@
 
     </FrameLayout>
 
-    <ImageView
-        android:id="@+id/ivAnadirEgreso"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/vector"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/toolbar"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintVertical_bias="0.97"
-        android:elevation="8dp"
-        android:layout_gravity="end"/>
-
-
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -209,32 +193,6 @@
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clGoals"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="16dp"
-                android:layout_weight="1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clExpenses">
-
-
-                <TextView
-                    android:id="@+id/tvYourGoals"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="8dp"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginTop="4dp"
-                    android:text="Tus metas"
-                    android:theme="@style/Title"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clMovements"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -242,7 +200,9 @@
                 android:layout_weight="1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clExpenses">
+                app:layout_constraintTop_toBottomOf="@+id/clExpenses"
+                app:layout_constraintBottom_toBottomOf="parent"
+                >
 
 
                 <TextView

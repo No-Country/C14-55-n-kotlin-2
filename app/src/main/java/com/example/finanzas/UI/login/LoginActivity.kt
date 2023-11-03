@@ -2,32 +2,66 @@ package com.example.finanzas.UI.login
 
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.finanzas.R
 import com.example.finanzas.UI.forgotPassword.ForgotPasswordActivity
 import com.example.finanzas.UI.home.MainActivity
+import com.example.finanzas.UI.login.viewModel.LoginViewModel
 import com.example.finanzas.UI.register.RegisterActivity
+import com.example.finanzas.UI.summary.viewModel.SummaryViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-
-
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
+    private val loginViewModel: LoginViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        initUI()
+
+    }
+
+    private fun initUI() {
+        initAuth()
+        initViewModel()
+    }
+
+    private fun initViewModel() {
+        val sharedPreferences = getSharedPreferences("MyApp", Context.MODE_PRIVATE)
+        if (!sharedPreferences.getBoolean("FirstRun", false)) {
+            // Este bloque de código se ejecutará solo la primera vez que se abra la aplicación
+            lifecycleScope.launch {
+                loginViewModel.insertTypeCategories()
+                loginViewModel.insertCategories()
+            }
+
+            // Actualiza las preferencias compartidas para indicar que la aplicación ya se ha abierto antes
+            sharedPreferences.edit().putBoolean("FirstRun", true).apply()
+        }
+    }
+
+    private fun initAuth() {
         // Initialize Firebase Auth
         auth = Firebase.auth
 
@@ -53,7 +87,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-        private fun perfomerSignIn() {
+    private fun perfomerSignIn() {
             // Registro con Firebase
             val email = findViewById<TextInputEditText>(R.id.etCorreoElectronico)
             val contrasena = findViewById<TextInputEditText>(R.id.etContrasena)
@@ -85,5 +119,9 @@ class LoginActivity : AppCompatActivity() {
                 }
 
         }
+
+
+
+
 
     }

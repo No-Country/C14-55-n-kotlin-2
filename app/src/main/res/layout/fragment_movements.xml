@@ -47,7 +47,7 @@
         android:id="@+id/ivAnadirEgreso"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/vector"
+        android:src="@drawable/plus"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -114,7 +114,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/tvIncome"
                     app:layout_constraintStart_toStartOf="@+id/tvIncome"
                     app:layout_constraintTop_toBottomOf="@+id/tvIncome"
-                    android:text="879000" />
+                    tools:text="879000" />
 
 
                 <TextView
@@ -122,7 +122,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    android:paddingTop="24dp"
                     android:text="@string/Expenses"
                     android:textColor="@color/Expenses"
                     android:theme="@style/Body"
@@ -139,7 +138,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/tvExpenses"
                     app:layout_constraintStart_toStartOf="@+id/tvExpenses"
                     app:layout_constraintTop_toBottomOf="@+id/tvExpenses"
-                    android:text="879000" />
+                    tools:text="879000" />
 
 
                 <TextView
@@ -167,7 +166,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/tvBalance"
                     app:layout_constraintStart_toStartOf="@+id/tvBalance"
                     app:layout_constraintTop_toBottomOf="@+id/tvBalance"
-                    android:text="879000" />
+                    tools:text="879000" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

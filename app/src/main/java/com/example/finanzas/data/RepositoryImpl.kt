@@ -10,9 +10,12 @@ import com.example.finanzas.data.database.entities.toDatabase
 import com.example.finanzas.domain.Repository
 import com.example.finanzas.domain.model.Categories
 import com.example.finanzas.domain.model.Movements
+import com.example.finanzas.domain.model.QueryGetMovements
 import com.example.finanzas.domain.model.TypeCategories
 import com.example.finanzas.domain.model.Users
 import com.example.finanzas.domain.model.toDomain
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
@@ -61,6 +64,14 @@ class RepositoryImpl @Inject constructor(
             movementsDao.insertMovements(movements.toDatabase())
         } catch (e: SQLiteConstraintException) {
             Log.d("Error al insertar insertMovements ", e.toString())
+        }
+    }
+
+    override fun getMovements(): Flow<List<QueryGetMovements>> {
+        return movementsDao.getMovements().map { list ->
+            list.map { movementsEntity ->
+                movementsEntity.toDomain()
+            }
         }
     }
 
