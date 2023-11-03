@@ -35,13 +35,14 @@ class ProfileFragment : Fragment() {
         user?.let {
             // Name, email address, and profile photo Url
             val email = it.email
+            val name = it.displayName
 
             // Establece el correo del usuario
             binding.etCorreoElectronico.setText(email)
             binding.etCorreoElectronico.isEnabled = false
 
             // Establece el texto "Carla" y deshabilita la entrada de texto
-            binding.etNombre.setText("Carla")
+            binding.etNombre.setText(name)
             binding.etNombre.isEnabled = false
 
 
