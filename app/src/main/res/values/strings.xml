@@ -55,8 +55,11 @@
     <string name="btn_descartar">Descartar</string>
     <string name="btn_agregar">Agregar</string>
 
+    <!--Nombre Fragment Movements-->
+    <string name="movimientos">Movimientos</string>
+    <string name="img_back">Icono de back</string>
+    <string name="your_month_movements">Tus movimientos del mes</string>
 
 
-
-
+    
 </resources>
