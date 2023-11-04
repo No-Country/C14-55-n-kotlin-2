@@ -64,5 +64,8 @@
     <string name="profile">Mi perfil</string>
     <string name="logout">Cerrar Sesión</string>
 
-    
+    <!--Nombre Edit Profile-->
+    <string name="save_changes">Guardar cambios</string>
+
+
 </resources>
