@@ -8,15 +8,17 @@ import com.example.finanzas.R
 import com.example.finanzas.domain.model.QueryGetMovements
 
 class MovementsAdapter(
-    var categoriasList: List<QueryGetMovements> = emptyList(),
+    var movementsList: List<QueryGetMovements> = emptyList(),
     private val onItemSelected: (Int) -> Unit
 ) : RecyclerView.Adapter<MovementsViewHolder>() {
 
+    private var filteredProductsList: List<QueryGetMovements> = movementsList
 
     fun updateList(list: List<QueryGetMovements>) {
-        val diffUtil = MovementsDIffUtil(categoriasList, list)
+        val diffUtil = MovementsDIffUtil(movementsList, list)
         val diffResult = DiffUtil.calculateDiff(diffUtil)
-        categoriasList = list
+        movementsList = list
+        filteredProductsList = list
         diffResult.dispatchUpdatesTo(this)
     }
 
@@ -27,14 +29,28 @@ class MovementsAdapter(
         )
     }
 
-    override fun onBindViewHolder(viewholder: MovementsViewHolder, position: Int) {
-        viewholder.bind(getItem(position), onItemSelected)
+    fun setFilterByCategory(categoryId: Int?) {
+        val newList = if (categoryId == null) {
+            movementsList
+        } else {
+            movementsList.filter { it.idCategory.toInt() == categoryId}
+        }
+
+        val diffCallback = MovementsDIffUtil(filteredProductsList, newList)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+
+        filteredProductsList = newList
+        diffResult.dispatchUpdatesTo(this)
     }
 
-    override fun getItemCount() = categoriasList.size
+    override fun onBindViewHolder(viewholder: MovementsViewHolder, position: Int) {
+        viewholder.bind(filteredProductsList[position], onItemSelected)
+    }
+
+    override fun getItemCount() = filteredProductsList.size
 
     private fun getItem(position: Int): QueryGetMovements {
-        return categoriasList[position]
+        return filteredProductsList[position]
     }
 
 }

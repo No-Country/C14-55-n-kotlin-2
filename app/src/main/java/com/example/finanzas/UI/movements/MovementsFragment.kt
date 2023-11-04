@@ -22,12 +22,8 @@ import com.example.finanzas.databinding.FragmentMovementsBinding
 import com.example.finanzas.domain.model.Categories
 import com.example.finanzas.domain.model.Movements
 import com.example.finanzas.domain.model.QueryGetMovements
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
-import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.symbiot.ipharma.ui.view.MainListProducts.recyclers.CategoriesAdapter
+import com.symbiot.ipharma.ui.view.MainListProducts.recyclers.CategoriesFilterAdapter
 import com.symbiot.ipharma.ui.view.MainListProducts.recyclers.MovementsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.async
@@ -43,6 +39,7 @@ class MovementsFragment : Fragment() {
     private var listOfCategories = listOf<Categories>()
     private val movementViewModel: MovementsViewModel by viewModels()
     private lateinit var movementsAdapter: MovementsAdapter
+    private lateinit var categoriesAdapter: CategoriesFilterAdapter
     private var stringList = listOf<String>()
     private var listOfMovements = listOf<QueryGetMovements>()
 
@@ -57,11 +54,13 @@ class MovementsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val recyclerView = binding.rvFilterMovements
-        val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        recyclerView.layoutManager = layoutManager
         initUI()
+        lifecycleScope.launch {
+            val getCategoriesJob = async { movementViewModel.getCategories() }
+            getCategoriesJob.await()
+            val getMovementsJob = async { movementViewModel.getMovements() }
+            getMovementsJob.await()
+        }
         // Aquí puedes configurar el adaptador del RecyclerView y otros detalles según tus necesidades.
     }
 
@@ -73,6 +72,17 @@ class MovementsFragment : Fragment() {
         }
         initUiState()
         initRecyclers()
+        initFilterRecycler()
+    }
+
+    private fun initFilterRecycler() {
+        categoriesAdapter = CategoriesFilterAdapter {
+            movementsAdapter.setFilterByCategory(it)
+        }
+
+        val myRecyclerView = binding.rvFilterMovements
+        myRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        myRecyclerView.adapter = categoriesAdapter
 
     }
 
@@ -85,20 +95,6 @@ class MovementsFragment : Fragment() {
             requireContext(),
             1
         )
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                movementViewModel.Movements.collect {
-                    movementsAdapter.updateList(it)
-                    listOfMovements = it
-                    var sum = listOfMovements.filter { it.idTypeCategory.toInt() == 1 }.sumOf { it.value.toInt() }
-                    var sum2 = listOfMovements.filter { it.idTypeCategory.toInt() == 2 }.sumOf { it.value.toInt() }
-                    var balance = sum - sum2
-                    binding.tvValueIncome.text = sum.toString()
-                    binding.tvValueExpenses.text = sum2.toString()
-                    binding.tvValueBalance.text = balance.toString()
-                }
-            }
-        }
     }
 
     private fun initUiState() {
@@ -106,17 +102,28 @@ class MovementsFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 movementViewModel.Categories.collect {
                     listOfCategories = it
+                    categoriesAdapter.updateList(it)
                     stringList = listOfCategories.map { it.name }
                     Log.d("Categories", it.toString())
                 }
             }
         }
 
+
+
         lifecycleScope.launch {
-            val getCategoriesJob = async { movementViewModel.getCategories() }
-            getCategoriesJob.await()
-            val getMovementsJob = async { movementViewModel.getMovements() }
-            getMovementsJob.await()
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                movementViewModel.Movements.collect {
+                    movementsAdapter.updateList(it)
+                    listOfMovements = it
+                    var sum = listOfMovements.filter { it.idTypeCategory.isNotEmpty() && it.idTypeCategory.toInt() == 1 && it.value.isNotEmpty() }.sumOf { it.value.toInt() }
+                    var sum2 = listOfMovements.filter { it.idTypeCategory.isNotEmpty() && it.idTypeCategory.toInt() == 2 && it.value.isNotEmpty() }.sumOf { it.value.toInt() }
+                    var balance = sum - sum2
+                    binding.tvValueIncome.text = sum.toString()
+                    binding.tvValueExpenses.text = sum2.toString()
+                    binding.tvValueBalance.text = balance.toString()
+                }
+            }
         }
     }
 
@@ -154,14 +161,20 @@ class MovementsFragment : Fragment() {
         bindingDialogAddEgress.btnAgregar.setOnClickListener{
             val category = bindingDialogAddEgress.atCategoria.text.toString()
             val amount = bindingDialogAddEgress.etMonto.text.toString()
-            val categorySelected = listOfCategories.firstOrNull { it.name == category }
-            val categoryId = categorySelected?.id
-            val movements = Movements(
-                value = amount, category_id = categoryId.toString() , user_id = "1")
-            lifecycleScope.launch {
-                movementViewModel.insertMovements(movements)
+            if (amount.isNotEmpty()) {
+                val categorySelected = listOfCategories.firstOrNull { it.name == category }
+                val categoryId = categorySelected?.id
+                val movements = Movements(
+                    value = amount, category_id = categoryId.toString() , user_id = "1")
+                lifecycleScope.launch {
+                    movementViewModel.insertMovements(movements)
+                }
+                dialogAddEgress?.dismiss()
+            } else {
+                bindingDialogAddEgress.etMonto.error = "Este campo se requiere"
             }
-            dialogAddEgress?.dismiss()
+
+            bindingDialogAddEgress.etMonto.text?.clear()
         }
 
         dialogAddEgress?.show()

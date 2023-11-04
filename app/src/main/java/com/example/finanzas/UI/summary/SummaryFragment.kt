@@ -22,7 +22,7 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.symbiot.ipharma.ui.view.MainListProducts.recyclers.CategoriesAdapter
-import com.symbiot.ipharma.ui.view.MainListProducts.recyclers.MovementsAdapter
+import com.symbiot.ipharma.ui.view.MainListProducts.recyclers.CategoriesFilterAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -77,8 +77,8 @@ class SummaryFragment : Fragment() {
                 summaryViewModel.Movements.collect {
                     movementsAdapter.updateList(it)
                     listOfMovements = it
-                    var sum = listOfMovements.filter { it.idTypeCategory.toInt() == 1 }.sumOf { it.value.toInt() }
-                    var sum2 = listOfMovements.filter { it.idTypeCategory.toInt() == 2 }.sumOf { it.value.toInt() }
+                    var sum = listOfMovements.filter { it.idTypeCategory.isNotEmpty() && it.idTypeCategory.toInt() == 1 && it.value.isNotEmpty() }.sumOf { it.value.toInt() }
+                    var sum2 = listOfMovements.filter { it.idTypeCategory.isNotEmpty() && it.idTypeCategory.toInt() == 2 && it.value.isNotEmpty() }.sumOf { it.value.toInt() }
                     var balance = sum - sum2
                     binding.tvValueIncome.text = sum.toString()
                     binding.tvValueExpenses.text = sum2.toString()

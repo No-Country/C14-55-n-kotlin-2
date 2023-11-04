@@ -2,12 +2,10 @@ package com.symbiot.ipharma.ui.view.MainListProducts.recyclers
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.finanzas.domain.model.Categories
-import com.example.finanzas.domain.model.Movements
-import com.example.finanzas.domain.model.QueryGetMovements
 
-class CategoriesDIffUtil(
-    private val oldList: List<QueryGetMovements>,
-    private val newList: List<QueryGetMovements>
+class CategoriesFilterDIffUtil(
+    private val oldList: List<Categories>,
+    private val newList: List<Categories>
 ) : DiffUtil.Callback() {
     //diffUtil
     override fun getOldListSize() = oldList.size

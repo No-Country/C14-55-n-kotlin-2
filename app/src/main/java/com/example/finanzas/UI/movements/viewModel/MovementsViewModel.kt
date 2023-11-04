@@ -47,7 +47,6 @@ class MovementsViewModel @Inject constructor(
 
     suspend fun getMovements() {
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("Movements", getMovements.invoke().toString())
             getMovements.invoke().collect { list ->
                 Log.d("Movements", list.toString())
                 _Movements.value = list

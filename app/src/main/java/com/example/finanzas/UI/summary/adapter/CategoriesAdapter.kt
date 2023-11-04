@@ -8,13 +8,13 @@ import com.example.finanzas.R
 import com.example.finanzas.domain.model.QueryGetMovements
 
 class CategoriesAdapter(
-    var categoriasList: List<QueryGetMovements> = emptyList(),
+    private var categoriasList: List<QueryGetMovements> = emptyList(),
     private val onItemSelected: (Int) -> Unit
 ) : RecyclerView.Adapter<MovementsViewHolder>() {
 
 
     fun updateList(list: List<QueryGetMovements>) {
-        val diffUtil = MovementsDIffUtil(categoriasList, list)
+        val diffUtil = CategoriesDIffUtil(categoriasList, list)
         val diffResult = DiffUtil.calculateDiff(diffUtil)
         categoriasList = list
         diffResult.dispatchUpdatesTo(this)

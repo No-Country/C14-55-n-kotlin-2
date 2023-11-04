@@ -1,6 +1,7 @@
 package com.symbiot.ipharma.ui.view.MainListProducts.recyclers
 
 import androidx.recyclerview.widget.DiffUtil
+import com.example.finanzas.domain.model.Categories
 import com.example.finanzas.domain.model.QueryGetMovements
 
 class MovementsDIffUtil(
