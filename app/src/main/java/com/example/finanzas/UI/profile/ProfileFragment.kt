@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.finanzas.UI.login.LoginActivity
+import com.example.finanzas.UI.profile.EditProfile.EditProfileActivity
 import com.example.finanzas.databinding.FragmentProfileBinding
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
@@ -27,10 +28,10 @@ class ProfileFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onResume() {
+        super.onResume()
 
-
+        // Recupera la información del usuario y actualiza las vistas
         val user = Firebase.auth.currentUser
         user?.let {
             // Name, email address, and profile photo Url
@@ -44,6 +45,11 @@ class ProfileFragment : Fragment() {
             // Establece el texto "Carla" y deshabilita la entrada de texto
             binding.etNombre.setText(name)
             binding.etNombre.isEnabled = false
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
 
             binding.btnCerrarSesion.setOnClickListener {
@@ -52,11 +58,14 @@ class ProfileFragment : Fragment() {
                 startActivity(intent)
             }
 
+            binding.btnEdit.setOnClickListener {
+                val intent = Intent(requireContext(), EditProfileActivity::class.java)
+                startActivity(intent)
+            }
+
         }
 
 
     }
-
-}
 
 
