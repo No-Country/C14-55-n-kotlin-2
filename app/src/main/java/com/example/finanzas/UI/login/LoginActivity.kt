@@ -25,6 +25,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -51,9 +52,12 @@ class LoginActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("MyApp", Context.MODE_PRIVATE)
         if (!sharedPreferences.getBoolean("FirstRun", false)) {
             // Este bloque de código se ejecutará solo la primera vez que se abra la aplicación
+
             lifecycleScope.launch {
-                loginViewModel.insertTypeCategories()
-                loginViewModel.insertCategories()
+                val getCategoriesJob = async {  loginViewModel.insertTypeCategories() }
+                getCategoriesJob.await()
+                val getMovementsJob = async {  loginViewModel.insertCategories() }
+                getMovementsJob.await()
             }
 
             // Actualiza las preferencias compartidas para indicar que la aplicación ya se ha abierto antes
